@@ -2,590 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manager Dashboard | THE DAILY BREW</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --espresso: #1B130E;
-      --cream: #FAF6F0;
-      --cream-dark: #EFE7DC;
-      --gold: #C69C53;
-      --gold-dark: #A67E38;
-      --text-main: #1F1814;
-      --text-muted: #6E6259;
-      --veg: #1E8E3E;
-      --nonveg: #C5221F;
-      --white: #FFFFFF;
-      --radius: 14px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--cream);
-      color: var(--text-main);
-      padding-bottom: 60px;
-    }
-
-    .topbar {
-      background: var(--espresso);
-      color: var(--cream);
-      padding: 16px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      border-bottom: 1px solid rgba(198, 156, 83, 0.3);
-    }
-
-    .topbar h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      color: var(--gold);
-      letter-spacing: 1px;
-    }
-
-    .topbar a {
-      color: var(--cream);
-      font-size: 0.8rem;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.25);
-      padding: 6px 12px;
-      border-radius: 999px;
-    }
-
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 16px;
-    }
-
-    .card {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 16px rgba(27, 19, 14, 0.06);
-      border: 1px solid #EAE1D5;
-    }
-
-    .card h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.55rem;
-      color: var(--espresso);
-      margin-bottom: 6px;
-    }
-
-    .subtext {
-      font-size: 0.83rem;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-      line-height: 1.45;
-    }
-
-    .form-group { margin-bottom: 12px; }
-
-    .form-group label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--espresso);
-      margin-bottom: 5px;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 11px 12px;
-      border-radius: 10px;
-      border: 1px solid #D5CBBF;
-      background: var(--white);
-      font-family: inherit;
-      font-size: 0.92rem;
-    }
-
-    .row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 13px;
-      border-radius: 12px;
-      border: none;
-      font-family: inherit;
-      font-size: 0.92rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-primary { background: var(--espresso); color: var(--gold); }
-    .btn-gold { background: var(--gold); color: var(--espresso); }
-    .btn-outline { background: transparent; border: 1px solid #C8BEB0; color: var(--text-main); }
-    .btn-danger { background: #FDECEA; color: var(--nonveg); }
-    .btn-sm { padding: 7px 12px; font-size: 0.78rem; width: auto; border-radius: 8px; }
-
-    .tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .tab-btn {
-      padding: 11px 8px;
-      border-radius: 12px;
-      border: 1px solid #DCD2C4;
-      background: var(--white);
-      font-weight: 700;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .tab-btn.active {
-      background: var(--espresso);
-      color: var(--gold);
-      border-color: var(--espresso);
-    }
-
-    .hidden { display: none !important; }
-
-    .status-banner {
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      margin-bottom: 14px;
-      display: none;
-    }
-
-    .status-banner.ok { display: block; background: #E6F4EA; color: #137333; border: 1px solid #CEEAD6; }
-    .status-banner.err { display: block; background: #FCE8E6; color: #C5221F; border: 1px solid #FAD2CF; }
-    .status-banner.busy { display: block; background: #FEF7E0; color: #8D6E00; border: 1px solid #FDE293; }
-
-    /* Dish List */
-    .dish-row {
-      display: flex;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid #EFE7DC;
-      align-items: center;
-    }
-
-    .dish-thumb {
-      width: 62px;
-      height: 62px;
-      border-radius: 10px;
-      object-fit: cover;
-      background: var(--cream-dark);
-      flex-shrink: 0;
-    }
-
-    .dish-info { flex: 1; min-width: 0; }
-    .dish-title { font-weight: 700; font-size: 0.94rem; color: var(--espresso); }
-    .dish-meta { font-size: 0.78rem; color: var(--text-muted); margin: 2px 0 6px; }
-
-    .dish-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .pill-status {
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 4px 9px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: none;
-    }
-
-    .pill-in { background: #E6F4EA; color: var(--veg); }
-    .pill-out { background: #FCE8E6; color: var(--nonveg); }
-
-    /* QR Grid */
-    .qr-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .qr-card {
-      background: var(--white);
-      border: 1.5px solid var(--espresso);
-      border-radius: 14px;
-      padding: 14px 10px;
-      text-align: center;
-      page-break-inside: avoid;
-    }
-
-    .qr-card img {
-      width: 150px;
-      height: 150px;
-      margin: 8px auto;
-      display: block;
-    }
-
-    .qr-cafe {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: 1px;
-      color: var(--espresso);
-    }
-
-    .qr-table-num {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--gold-dark);
-      margin-top: 2px;
-    }
-
-    .qr-scan-hint {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    @media print {
-      .no-print { display: none !important; }
-      body { background: #fff; padding: 0; }
-      .card { box-shadow: none; border: none; padding: 0; }
-      .qr-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    }
+    :root{--esp:#1B130E;--crm:#FAF6F0;--gold:#C69C53;--txt:#1F1814;--mut:#6E6259;--veg:#1E8E3E;--red:#C5221F}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,-apple-system,sans-serif;background:var(--crm);color:var(--txt);padding-bottom:50px}
+    .top{background:var(--esp);color:var(--crm);padding:15px 18px;display:flex;justify-content:space-between;align-items:center}
+    .top h1{font-size:1.15rem;color:var(--gold);letter-spacing:1px}
+    .top a{color:var(--crm);font-size:.82rem;text-decoration:none;border:1px solid #665;padding:5px 12px;border-radius:99px}
+    .wrap{max-width:680px;margin:0 auto;padding:16px}
+    .card{background:#fff;border-radius:14px;padding:18px;margin-bottom:16px;border:1px solid #E6DDD0}
+    h2{font-size:1.25rem;color:var(--esp);margin-bottom:6px}
+    .sub{font-size:.83rem;color:var(--mut);margin-bottom:14px;line-height:1.4}
+    .fg{margin-bottom:12px}
+    label{display:block;font-size:.78rem;font-weight:700;margin-bottom:5px}
+    input,select{width:100%;padding:11px;border-radius:10px;border:1px solid #D5CBBF;font-size:.95rem;background:#fff}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{width:100%;padding:13px;border-radius:11px;border:none;font-size:.95rem;font-weight:700;cursor:pointer}
+    .btn-dark{background:var(--esp);color:var(--gold)}
+    .btn-gold{background:var(--gold);color:var(--esp)}
+    .btn-out{background:#fff;border:1px solid #C8BEB0;color:var(--txt)}
+    .btn-red{background:#FDECEA;color:var(--red)}
+    .btn-sm{padding:6px 11px;font-size:.78rem;width:auto;border-radius:8px}
+    .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+    .tab{padding:11px 6px;border-radius:10px;border:1px solid #DCD2C4;background:#fff;font-weight:700;font-size:.82rem;color:var(--mut)}
+    .tab.active{background:var(--esp);color:var(--gold);border-color:var(--esp)}
+    .hide{display:none!important}
+    .msg{padding:12px;border-radius:10px;font-size:.85rem;font-weight:600;margin-bottom:14px;display:none}
+    .msg.ok{display:block;background:#E6F4EA;color:#137333}
+    .msg.err{display:block;background:#FCE8E6;color:var(--red)}
+    .msg.busy{display:block;background:#FEF7E0;color:#8D6E00}
+    .dish{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #EFE7DC;align-items:center}
+    .dish img{width:58px;height:58px;border-radius:10px;object-fit:cover;background:#eee}
+    .dinfo{flex:1}
+    .dacts{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .pill{font-size:.73rem;font-weight:700;padding:4px 9px;border-radius:6px;border:none}
+    .in{background:#E6F4EA;color:var(--veg)}.out{background:#FCE8E6;color:var(--red)}
+    .qrgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .qrcard{border:1.5px solid var(--esp);border-radius:12px;padding:12px;text-align:center}
+    .qrcard img{width:140px;height:140px;margin:8px auto;display:block}
+    @media print{.noprint{display:none!important}.qrgrid{grid-template-columns:repeat(3,1fr)}}
   </style>
 </head>
 <body>
-
-  <header class="topbar no-print">
+  <div class="top noprint">
     <h1>THE DAILY BREW &bull; Admin</h1>
     <a href="index.html">Live Menu &rarr;</a>
-  </header>
-
-  <div class="container">
-    <div id="statusBanner" class="status-banner no-print"></div>
-
-    <!-- Login Card -->
-    <div id="loginView" class="card">
-      <h2>Manager Sign-In</h2>
-      <p class="subtext">
-        Enter your GitHub Fine-Grained Personal Access Token to manage your live menu, prices, dish photos, WhatsApp number, and table QR codes. Your token stays saved only on this phone.
-      </p>
-      <div class="form-group">
-        <label for="tokenInput">GitHub Personal Access Token</label>
-        <input type="password" id="tokenInput" class="form-control" placeholder="github_pat_..." />
-      </div>
-      <button class="btn btn-primary" onclick="connectGitHub()">Unlock Manager Dashboard</button>
-    </div>
-
-    <!-- Main Dashboard -->
-    <div id="dashboardView" class="hidden">
-      <div class="tabs no-print">
-        <button class="tab-btn active" id="tabMenuBtn" onclick="switchTab('menu')">Menu Items</button>
-        <button class="tab-btn" id="tabSettingsBtn" onclick="switchTab('settings')">Cafe &amp; GST</button>
-        <button class="tab-btn" id="tabQrBtn" onclick="switchTab('qr')">Table QRs</button>
-      </div>
-
-      <!-- TAB 1: MENU ITEMS -->
-      <div id="tabMenu">
-        <div class="card">
-          <h2 id="formHeading">Add New Dish / Drink</h2>
-          <p class="subtext">Upload a photo from your phone gallery or paste an image link, then tap Save to Menu.</p>
-
-          <input type="hidden" id="editItemId" value="" />
-
-          <div class="form-group">
-            <label for="itemName">Item Name *</label>
-            <input type="text" id="itemName" class="form-control" placeholder="e.g., Iced Caramel Latte" />
-          </div>
-
-          <div class="row-2">
-            <div class="form-group">
-              <label for="itemCategory">Category *</label>
-              <select id="itemCategory" class="form-control"></select>
-            </div>
-            <div class="form-group">
-              <label for="itemPrice">Price (₹) *</label>
-              <input type="number" id="itemPrice" class="form-control" placeholder="220" />
-            </div>
-          </div>
-
-          <div class="row-2">
-            <div class="form-group">
-              <label for="itemVeg">Dietary Type</label>
-              <select id="itemVeg" class="form-control">
-                <option value="true">Veg (Green Dot)</option>
-                <option value="false">Non-Veg (Red Dot)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="itemAvail">Stock Status</label>
-              <select id="itemAvail" class="form-control">
-                <option value="true">Available</option>
-                <option value="false">Sold Out</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="itemDesc">Short Description</label>
-            <input type="text" id="itemDesc" class="form-control" placeholder="e.g., Double espresso over chilled milk and caramel." />
-          </div>
-
-          <div class="form-group">
-            <label for="itemPhotoFile">Upload Photo from Phone (Optional)</label>
-            <input type="file" id="itemPhotoFile" accept="image/*" class="form-control" />
-          </div>
-
-          <div class="form-group">
-            <label for="itemImageUrl">Or Image URL</label>
-            <input type="text" id="itemImageUrl" class="form-control" placeholder="Auto-filled when you upload a photo" />
-          </div>
-
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-gold" onclick="saveDish()">Save to Live Menu</button>
-            <button class="btn btn-outline hidden" id="cancelEditBtn" onclick="resetDishForm()">Cancel</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2>Current Menu (<span id="itemCount">0</span>)</h2>
-          <p class="subtext">Tap <strong>Available / Sold Out</strong> for instant stock updates, or Edit / Delete any dish.</p>
-          <div id="adminDishList"></div>
-        </div>
-      </div>
-
-      <!-- TAB 2: CAFE SETTINGS -->
-      <div id="tabSettings" class="hidden">
-        <div class="card">
-          <h2>Cafe &amp; Billing Settings</h2>
-          <p class="subtext">Update the WhatsApp number that receives table orders, GST %, and total table count.</p>
-
-          <div class="form-group">
-            <label for="setCafeName">Cafe Name</label>
-            <input type="text" id="setCafeName" class="form-control" />
-          </div>
-
-          <div class="form-group">
-            <label for="setTagline">Tagline</label>
-            <input type="text" id="setTagline" class="form-control" />
-          </div>
-
-          <div class="form-group">
-            <label for="setWhatsapp">Order Receiving WhatsApp Number (with 91 country code, no +) *</label>
-            <input type="tel" id="setWhatsapp" class="form-control" placeholder="919876543210" />
-          </div>
-
-          <div class="row-2">
-            <div class="form-group">
-              <label for="setGst">GST (%)</label>
-              <input type="number" id="setGst" class="form-control" placeholder="5" />
-            </div>
-            <div class="form-group">
-              <label for="setService">Service Charge (%)</label>
-              <input type="number" id="setService" class="form-control" placeholder="0" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="setTables">Number of Tables</label>
-            <input type="number" id="setTables" class="form-control" placeholder="12" />
-          </div>
-
-          <button class="btn btn-primary" onclick="saveSettings()">Save Cafe Settings</button>
-        </div>
-
-        <div class="card">
-          <h2>Security</h2>
-          <p class="subtext">Sign out to remove your GitHub token from this browser.</p>
-          <button class="btn btn-danger" onclick="logout()">Sign Out / Clear Token</button>
-        </div>
-      </div>
-
-      <!-- TAB 3: QR CODES -->
-      <div id="tabQr" class="hidden">
-        <div class="card">
-          <div class="no-print">
-            <h2>Table QR Code Generator</h2>
-            <p class="subtext">Each QR code opens your live menu pre-linked to that exact table number. Tap Print / Save PDF to print table tents.</p>
-            <button class="btn btn-gold" style="margin-bottom:14px;" onclick="window.print()">Print / Save All Table QRs as PDF</button>
-          </div>
-          <div class="qr-grid" id="qrGrid"></div>
-        </div>
-      </div>
-    </div>
   </div>
+  <div class="wrap">
+    <div id="statusBox" class="msg noprint"></div>
 
-  <script>
-    const REPO_OWNER = "nnature7777-tech";
-    const REPO_NAME = "the-daily-brew";
-    const DATA_FILE = "menu-data.json";
-    const LIVE_SITE_URL = `https://${REPO_OWNER}.github.io/${REPO_NAME}/`;
+    <div id="loginBox" class="card">
+      <h2>Manager Sign-In</h2>
+      <p class="sub">Paste your GitHub Fine-Grained Token (<code>github_pat_...</code>) to manage your live menu, photos, WhatsApp number, and table QR codes.</p>
+      <div class="fg">
+        <label>GitHub Personal Access Token</label>
+        <input type="password" id="tok" placeholder="github_pat_..." />
+      </div>
+      <button type="button" class="btn btn-dark" id="unlockBtn">Unlock Manager Dashboard</button>
+    </div>
 
-    let ghToken = localStorage.getItem("tdb_gh_token") || "";
-    let menuData = null;
-    let fileSha = "";
+    <div id="dashBox" class="hide">
+      <div class="tabs noprint">
+        <button type="button" class="tab active" data-t="menu">Menu Items</button>
+        <button type="button" class="tab" data-t="set">Cafe &amp; GST</button>
+        <button type="button" class="tab" data-t="qr">Table QRs</button>
+      </div>
 
-    function showStatus(msg, type = "ok") {
-      const el = document.getElementById("statusBanner");
-      el.textContent = msg;
-      el.className = "status-banner no-print " + type;
-      if (type === "ok") {
-        setTimeout(() => { el.className = "status-banner no-print"; }, 4000);
-      }
-    }
-
-    function utf8ToBase64(str) {
-      return btoa(unescape(encodeURIComponent(str)));
-    }
-
-    function base64ToUtf8(b64) {
-      return decodeURIComponent(escape(atob(b64.replace(/\n/g, ""))));
-    }
-
-    async function connectGitHub() {
-      const inputVal = document.getElementById("tokenInput").value.trim();
-      if (inputVal) ghToken = inputVal;
-      if (!ghToken) {
-        showStatus("Please paste your GitHub Personal Access Token.", "err");
-        return;
-      }
-
-      showStatus("Connecting to GitHub...", "busy");
-      try {
-        const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}?t=${Date.now()}`, {
-          headers: {
-            "Authorization": `Bearer ${ghToken}`,
-            "Accept": "application/vnd.github+json"
-          }
-        });
-        if (!res.ok) {
-          throw new Error("Invalid token or repository permissions. Check Contents Read & Write permission.");
-        }
-        const json = await res.json();
-        fileSha = json.sha;
-        menuData = JSON.parse(base64ToUtf8(json.content));
-
-        localStorage.setItem("tdb_gh_token", ghToken);
-        document.getElementById("loginView").classList.add("hidden");
-        document.getElementById("dashboardView").classList.remove("hidden");
-        showStatus("Connected! Live menu loaded.", "ok");
-        populateDashboard();
-      } catch (err) {
-        localStorage.removeItem("tdb_gh_token");
-        showStatus(err.message, "err");
-      }
-    }
-
-    function logout() {
-      localStorage.removeItem("tdb_gh_token");
-      ghToken = "";
-      location.reload();
-    }
-
-    function switchTab(tab) {
-      ["menu", "settings", "qr"].forEach(t => {
-        document.getElementById("tab" + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle("hidden", t !== tab);
-        document.getElementById("tab" + t.charAt(0).toUpperCase() + t.slice(1) + "Btn").classList.toggle("active", t === tab);
-      });
-      if (tab === "qr") renderQRCodes();
-    }
-
-    function populateDashboard() {
-      // Categories dropdown
-      const catSel = document.getElementById("itemCategory");
-      catSel.innerHTML = menuData.categories.map(c => `<option value="${c}">${c}</option>`).join("");
-
-      // Settings fields
-      document.getElementById("setCafeName").value = menuData.cafe.name || "THE DAILY BREW";
-      document.getElementById("setTagline").value = menuData.cafe.tagline || "";
-      document.getElementById("setWhatsapp").value = menuData.cafe.whatsapp || "";
-      document.getElementById("setGst").value = menuData.cafe.gstPercent ?? 5;
-      document.getElementById("setService").value = menuData.cafe.serviceChargePercent ?? 0;
-      document.getElementById("setTables").value = menuData.cafe.tableCount || 12;
-
-      renderAdminDishes();
-    }
-
-    function renderAdminDishes() {
-      const list = document.getElementById("adminDishList");
-      document.getElementById("itemCount").textContent = menuData.items.length;
-
-      list.innerHTML = menuData.items.map(item => `
-        <div class="dish-row">
-          <img class="dish-thumb" src="${item.image}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200&q=60'" />
-          <div class="dish-info">
-            <div class="dish-title">${item.name} &bull; ₹${item.price}</div>
-            <div class="dish-meta">${item.category} &bull; ${item.veg ? "Veg" : "Non-Veg"}</div>
-            <div class="dish-actions">
-              <button class="pill-status ${item.available !== false ? "pill-in" : "pill-out"}" onclick="toggleAvailability('${item.id}')">
-                ${item.available !== false ? "Available" : "Sold Out"}
-              </button>
-              <button class="btn btn-outline btn-sm" onclick="editDish('${item.id}')">Edit</button>
-              <button class="btn btn-danger btn-sm" onclick="deleteDish('${item.id}')">Delete</button>
-            </div>
+      <div id="pane-menu">
+        <div class="card">
+          <h2 id="fHead">Add New Dish / Drink</h2>
+          <input type="hidden" id="editId" />
+          <div class="fg"><label>Item Name *</label><input type="text" id="iName" placeholder="e.g., Iced Caramel Latte" /></div>
+          <div class="row2">
+            <div class="fg"><label>Category *</label><select id="iCat"></select></div>
+            <div class="fg"><label>Price (₹) *</label><input type="number" id="iPrice" placeholder="220" /></div>
           </div>
-        </div>
-      `).join("");
-    }
-
-    async function pushMenuToGitHub(commitMsg) {
-      showStatus("Saving changes to live website...", "busy");
-      const contentB64 = utf8ToBase64(JSON.stringify(menuData, null, 2));
-      const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE}`, {
-        method: "PUT",
-        headers: {
-          "Authorization": `Bearer ${ghToken}`,
-          "Accept": "application/vnd.github+json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: commitMsg,
-          content: contentB64,
-          sha: fileSha
-        })
-      });
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || "Failed to update GitHub.");
-      }
-      const updated = await res.json();
-      fileSha = updated.content.sha;
-      renderAdminDishes();
-      showStatus("Saved! Live customer menu updates in ~30 seconds.", "ok");
-    }
-
-    async function uploadImageFile(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = async () => {
-          try {
-            const base64Data = reader.result.split(",")[1];
-            const cleanName = file.name.replace(/[^a-zA-Z0-9.]/g, "-").toLowerCase();
-            const path = `images/${Date.now()}-${cleanName}`;
-
-            showStatus("Uploading dish photo to GitHub...", "busy");
-            const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
-              method: "PUT",
-              headers: {
-                "Authorization": `Bearer ${ghToken}`,
-                "Accept": "application/vnd.github+json",
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                message: `Upload dish image ${cleanName}`,
-                content: base64Data
-              })
-            });
-            if (!res.ok) throw new Error("Image upload failed.");
-            resolve(LIVE_SITE_URL + path);
-      
+          <div class="row2">
+            <div class="fg"><label>Dietary</label><select id="iVeg"><option value="true">Veg</option><option value="false">Non-
+              
