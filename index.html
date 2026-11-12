@@ -814,4 +814,218 @@
         const matchesVeg = !vegOnly || item.veg === true;
         const matchesSearch = !query ||
           item.name.toLowerCase().includes(query) ||
-          (item.description && item.description.toLowerCas
+          (item.description && item.description.toLowerCase().includes(query)) ||
+          item.category.toLowerCase().includes(query);
+        return matchesCat && matchesVeg && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-msg">No dishes match your filter. Try clearing search or Veg Only.</div>';
+        return;
+      }
+
+      const categoriesToShow = activeCategory === "All"
+        ? menuData.categories.filter(c => filtered.some(i => i.category === c))
+        : [activeCategory];
+
+      let html = "";
+      categoriesToShow.forEach(cat => {
+        const catItems = filtered.filter(i => i.category === cat);
+        if (catItems.length === 0) return;
+        html += `<h2 class="section-heading">${cat}</h2><div class="menu-grid">`;
+        catItems.forEach(item => {
+          const qty = cart[item.id] || 0;
+          const isAvail = item.available !== false;
+          html += `
+            <div class="card ${!isAvail ? "sold-out" : ""}">
+              <div class="card-img-wrap">
+                <img class="card-img" src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80'" />
+                <div class="diet-badge">
+                  <span class="diet-icon ${item.veg ? "" : "nonveg"}"></span>
+                  <span>${item.veg ? "VEG" : "NON-VEG"}</span>
+                </div>
+                ${!isAvail ? '<div class="sold-badge">Sold Out</div>' : ""}
+              </div>
+              <div class="card-body">
+                <div>
+                  <h3 class="card-title">${item.name}</h3>
+                  <p class="card-desc">${item.description || ""}</p>
+                </div>
+                <div class="card-footer">
+                  <span class="price">${currency}${item.price}</span>
+                  ${!isAvail
+                    ? `<button class="add-btn" disabled>Unavailable</button>`
+                    : qty === 0
+                      ? `<button class="add-btn" onclick="changeQty('${item.id}', 1)">+ Add</button>`
+                      : `<div class="qty-box">
+                           <button class="qty-btn" onclick="changeQty('${item.id}', -1)">&minus;</button>
+                           <span class="qty-val">${qty}</span>
+                           <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+                         </div>`
+                  }
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function changeQty(id, delta) {
+      const next = (cart[id] || 0) + delta;
+      if (next <= 0) {
+        delete cart[id];
+      } else {
+        cart[id] = next;
+      }
+      localStorage.setItem("tdb_cart", JSON.stringify(cart));
+      renderMenu();
+      updateCartUI();
+      if (document.getElementById("cartModal").classList.contains("open")) {
+        renderCartDrawer();
+      }
+    }
+
+    function getCartTotals() {
+      const currency = (menuData && menuData.cafe.currency) || "₹";
+      const gstPct = (menuData && Number(menuData.cafe.gstPercent)) || 0;
+      const scPct = (menuData && Number(menuData.cafe.serviceChargePercent)) || 0;
+
+      let count = 0;
+      let subtotal = 0;
+      const lines = [];
+
+      if (menuData) {
+        Object.keys(cart).forEach(id => {
+          const item = menuData.items.find(i => i.id === id);
+          if (item && cart[id] > 0) {
+            const qty = cart[id];
+            const lineTotal = item.price * qty;
+            count += qty;
+            subtotal += lineTotal;
+            lines.push({ item, qty, lineTotal });
+          }
+        });
+      }
+
+      const gstAmount = Math.round((subtotal * gstPct) / 100);
+      const scAmount = Math.round((subtotal * scPct) / 100);
+      const grandTotal = subtotal + gstAmount + scAmount;
+
+      return { currency, count, subtotal, gstPct, gstAmount, scPct, scAmount, grandTotal, lines };
+    }
+
+    function updateCartUI() {
+      const totals = getCartTotals();
+      const bar = document.getElementById("cartBar");
+      if (totals.count > 0) {
+        bar.classList.add("visible");
+        document.getElementById("cartBarCount").textContent = `${totals.count} item${totals.count > 1 ? "s" : ""} added`;
+        document.getElementById("cartBarTotal").textContent = `${totals.currency}${totals.grandTotal}`;
+      } else {
+        bar.classList.remove("visible");
+      }
+    }
+
+    function openCart() {
+      renderCartDrawer();
+      document.getElementById("cartModal").classList.add("open");
+    }
+
+    function closeCart() {
+      document.getElementById("cartModal").classList.remove("open");
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target.id === "cartModal") closeCart();
+    }
+
+    function renderCartDrawer() {
+      const totals = getCartTotals();
+      const listEl = document.getElementById("cartItemsList");
+      const billEl = document.getElementById("billSummary");
+
+      if (totals.lines.length === 0) {
+        listEl.innerHTML = '<div class="empty-msg">Your cart is empty. Add items from the menu!</div>';
+        billEl.innerHTML = "";
+        return;
+      }
+
+      listEl.innerHTML = totals.lines.map(line => `
+        <div class="cart-item">
+          <div>
+            <div class="cart-item-title">${line.item.name}</div>
+            <div class="cart-item-sub">${totals.currency}${line.item.price} &times; ${line.qty} = ${totals.currency}${line.lineTotal}</div>
+          </div>
+          <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('${line.item.id}', -1)">&minus;</button>
+            <span class="qty-val">${line.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${line.item.id}', 1)">+</button>
+          </div>
+        </div>
+      `).join("");
+
+      let billHTML = `
+        <div class="bill-row"><span>Item Subtotal</span><span>${totals.currency}${totals.subtotal}</span></div>
+      `;
+      if (totals.gstPct > 0) {
+        billHTML += `<div class="bill-row"><span>GST (${totals.gstPct}%)</span><span>${totals.currency}${totals.gstAmount}</span></div>`;
+      }
+      if (totals.scPct > 0) {
+        billHTML += `<div class="bill-row"><span>Service Charge (${totals.scPct}%)</span><span>${totals.currency}${totals.scAmount}</span></div>`;
+      }
+      billHTML += `
+        <div class="bill-row total"><span>Grand Total</span><span>${totals.currency}${totals.grandTotal}</span></div>
+      `;
+      billEl.innerHTML = billHTML;
+    }
+
+    function sendWhatsAppOrder() {
+      const totals = getCartTotals();
+      if (totals.lines.length === 0) {
+        alert("Please add at least one item to your order.");
+        return;
+      }
+      const tableVal = document.getElementById("tableSelect").value;
+      if (!tableVal) {
+        alert("Please select your Table Number first.");
+        document.getElementById("tableSelect").focus();
+        return;
+      }
+
+      const custName = document.getElementById("customerName").value.trim();
+      const notes = document.getElementById("orderNotes").value.trim();
+      const orderRef = "TDB-" + Math.floor(1000 + Math.random() * 9000);
+      const timeStr = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+      let msg = `*NEW ORDER - ${menuData.cafe.name}*\n`;
+      msg += `Order ID: *${orderRef}*\n`;
+      msg += `Table: *${tableVal === "Takeaway" ? "Takeaway" : "Table #" + tableVal}*\n`;
+      if (custName) msg += `Guest: ${custName}\n`;
+      msg += `Time: ${timeStr}\n`;
+      msg += `----------------------------\n`;
+
+      totals.lines.forEach(l => {
+        msg += `${l.qty}x ${l.item.name} - ${totals.currency}${l.lineTotal}\n`;
+      });
+
+      msg += `----------------------------\n`;
+      msg += `Subtotal: ${totals.currency}${totals.subtotal}\n`;
+      if (totals.gstPct > 0) msg += `GST (${totals.gstPct}%): ${totals.currency}${totals.gstAmount}\n`;
+      if (totals.scPct > 0) msg += `Service Charge (${totals.scPct}%): ${totals.currency}${totals.scAmount}\n`;
+      msg += `*TOTAL PAYABLE: ${totals.currency}${totals.grandTotal}*\n`;
+      if (notes) msg += `\nNote: _${notes}_\n`;
+
+      const phone = (menuData.cafe.whatsapp || "").replace(/\D/g, "");
+      const waURL = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      window.open(waURL, "_blank");
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
+
