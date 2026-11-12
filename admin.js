@@ -34,7 +34,7 @@ async function push(msg){
   say("Saving...","busy");
   const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`,{method:"PUT",headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json","Content-Type":"application/json"},body:JSON.stringify({message:msg,content:toB64(JSON.stringify(data,null,2)),sha})});
   if(!r.ok)throw new Error("Save failed ("+r.status+")");
-  sha=(await r.json()).content.sha;renderDishes();say("Saved! Updates in ~30s.","ok");
+  sha=(await r.json()).content.sha;renderDishes();say("Done! The changes will update in ~30s.","ok");
 }
 
 async function upImg(f){
