@@ -80,5 +80,44 @@
             <div class="fg"><label>Price (₹) *</label><input type="number" id="iPrice" placeholder="220" /></div>
           </div>
           <div class="row2">
-            <div class="fg"><label>Dietary</label><select id="iVeg"><option value="true">Veg</option><option value="false">Non-
-              
+            <div class="fg"><label>Dietary</label><select id="iVeg"><option value="true">Veg</option><option value="false">Non-Veg</option></select></div>
+            <div class="fg"><label>Stock</label><select id="iAvail"><option value="true">Available</option><option value="false">Sold Out</option></select></div>
+          </div>
+          <div class="fg"><label>Description</label><input type="text" id="iDesc" placeholder="Short description..." /></div>
+          <div class="fg"><label>Upload Photo from Gallery</label><input type="file" id="iFile" accept="image/*" /></div>
+          <div class="fg"><label>Or Image URL</label><input type="text" id="iImg" placeholder="https://..." /></div>
+          <div style="display:flex;gap:8px">
+            <button type="button" class="btn btn-gold" id="saveDishBtn">Save to Live Menu</button>
+            <button type="button" class="btn btn-out hide" id="cancelBtn">Cancel</button>
+          </div>
+        </div>
+        <div class="card"><h2>Current Menu (<span id="cnt">0</span>)</h2><div id="dishList"></div></div>
+      </div>
+      <div id="pane-set" class="hide">
+        <div class="card">
+          <h2>Cafe &amp; Billing Settings</h2>
+          <div class="fg"><label>Cafe Name</label><input type="text" id="sName" /></div>
+          <div class="fg"><label>Tagline</label><input type="text" id="sTag" /></div>
+          <div class="fg"><label>WhatsApp Number (with 91, no +) *</label><input type="tel" id="sWa" placeholder="919876543210" /></div>
+          <div class="row2">
+            <div class="fg"><label>GST (%)</label><input type="number" id="sGst" /></div>
+            <div class="fg"><label>Service Charge (%)</label><input type="number" id="sSc" /></div>
+          </div>
+          <div class="fg"><label>Number of Tables</label><input type="number" id="sTbl" /></div>
+          <button type="button" class="btn btn-dark" id="saveSetBtn">Save Cafe Settings</button>
+        </div>
+        <div class="card"><button type="button" class="btn btn-red" id="logoutBtn">Sign Out / Clear Token</button></div>
+      </div>
+      <div id="pane-qr" class="hide">
+        <div class="card">
+          <div class="noprint"><h2>Table QR Codes</h2><button type="button" class="btn btn-gold" style="margin-bottom:12px" onclick="window.print()">Print / Save PDF</button></div>
+          <div class="qrgrid" id="qrGrid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>
+
+        
