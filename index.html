@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>THE DAILY BREW | Good Coffee. Great Food. Better Moments.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --espresso: #1B130E;
+      --espresso-light: #2A1E17;
+      --cream: #FAF6F0;
+      --cream-dark: #EFE7DC;
+      --gold: #C69C53;
+      --gold-dark: #A67E38;
+      --text-main: #1F1814;
+      --text-muted: #6E6259;
+      --veg: #1E8E3E;
+      --nonveg: #C5221F;
+      --white: #FFFFFF;
+      --shadow: 0 8px 24px rgba(27, 19, 14, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 100px;
+    }
+
+    h1, h2, h3, .serif {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Top Bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(27, 19, 14, 0.96);
+      backdrop-filter: blur(10px);
+      color: var(--cream);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(198, 156, 83, 0.25);
+    }
+
+    .brand-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--gold);
+    }
+
+    .table-badge {
+      background: rgba(198, 156, 83, 0.18);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(160deg, var(--espresso) 0%, #2D1F17 100%);
+      color: var(--cream);
+      padding: 36px 20px 42px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(198, 156, 83, 0.25);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      line-height: 1.1;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .hero p {
+      color: #D7CCC2;
+      font-size: 0.95rem;
+      max-width: 340px;
+      margin: 0 auto 20px;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--espresso);
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 11px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+
+    /* Search & Filter Controls */
+    .controls-wrap {
+      background: var(--cream);
+      position: sticky;
+      top: 56px;
+      z-index: 30;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+
+    .search-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid #DCD2C4;
+      background: var(--white);
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--gold);
+    }
+
+    .veg-toggle {
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 1px solid #DCD2C4;
+      background: var(--white);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .veg-toggle.active {
+      background: #E8F5E9;
+      border-color: var(--veg);
+      color: var(--veg);
+    }
+
+    .veg-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      border: 1.5px solid var(--veg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .veg-dot::after {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--veg);
+    }
+
+    /* Category Pills */
+    .cat-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .cat-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-pill {
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: var(--white);
+      border: 1px solid #E2D8CA;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cat-pill.active {
+      background: var(--espresso);
+      color: var(--gold);
+      border-color: var(--espresso);
+    }
+
+    /* Menu Container */
+    .menu-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .section-heading {
+      font-size: 1.65rem;
+      color: var(--espresso);
+      margin: 18px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-heading::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #DFD5C7;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 600px) {
+      .menu-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Product Card */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(27, 19, 14, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card.sold-out {
+      opacity: 0.65;
+    }
+
+    .card-img-wrap {
+      position: relative;
+      height: 165px;
+      background: var(--cream-dark);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .diet-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.94);
+      padding: 4px 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .diet-icon {
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid var(--veg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+    }
+
+    .diet-icon::after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--veg);
+    }
+
+    .diet-icon.nonveg {
+      border-color: var(--nonveg);
+    }
+
+    .diet-icon.nonveg::after {
+      background: var(--nonveg);
+    }
+
+    .sold-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--espresso);
+      color: var(--white);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .card-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--espresso);
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid #F2ECE4;
+    }
+
+    .price {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+
+    .add-btn {
+      background: var(--espresso);
+      color: var(--gold);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .add-btn:disabled {
+      background: #D5CEC4;
+      color: #7D756D;
+      cursor: not-allowed;
+    }
+
+    .qty-box {
+      display: flex;
+      align-items: center;
+      background: var(--espresso);
+      color: var(--gold);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .qty-btn {
+      background: transparent;
+      border: none;
+      color: var(--gold);
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .qty-val {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--white);
+      min-width: 20px;
+      text-align: center;
+    }
+
+    /* Floating Cart Bar */
+    .cart-bar {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      max-width: 688px;
+      margin: 0 auto;
+      background: var(--espresso);
+      color: var(--white);
+      padding: 14px 18px;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(27, 19, 14, 0.35);
+      border: 1px solid var(--gold);
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 45;
+      cursor: pointer;
+    }
+
+    .cart-bar.visible {
+      display: flex;
+    }
+
+    .cart-bar-info span {
+      display: block;
+      font-size: 0.76rem;
+      color: #D7CCC2;
+    }
+
+    .cart-bar-info strong {
+      font-size: 1.05rem;
+      color: var(--gold);
+    }
+
+    .cart-bar-cta {
+      background: var(--gold);
+      color: var(--espresso);
+      font-weight: 700;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+    }
+
+    /* Modal / Drawer */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 10, 7, 0.65);
+      z-index: 50;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .drawer {
+      background: var(--cream);
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      border-radius: 24px 24px 0 0;
+      padding: 22px 20px 28px;
+      overflow-y: auto;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #DFD5C7;
+      margin-bottom: 16px;
+    }
+
+    .drawer-header h2 {
+      font-size: 1.6rem;
+      color: var(--espresso);
+    }
+
+    .close-btn {
+      background: var(--cream-dark);
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--espresso);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #E8DFD3;
+      gap: 10px;
+    }
+
+    .cart-item-title {
+      font-weight: 600;
+      font-size: 0.94rem;
+    }
+
+    .cart-item-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-top: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--espresso);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid #D5CBBF;
+      background: var(--white);
+      font-family: inherit;
+      font-size: 0.92rem;
+    }
+
+    .bill-box {
+      background: var(--white);
+      padding: 14px;
+      border-radius: 14px;
+      margin-top: 16px;
+      border: 1px solid #E5DDD0;
+    }
+
+    .bill-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    .bill-row.total {
+      border-top: 1px dashed #D5CBBF;
+      padding-top: 10px;
+      margin-top: 8px;
+      margin-bottom: 0;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+
+    .whatsapp-btn {
+      width: 100%;
+      margin-top: 18px;
+      background: #1E8E3E;
+      color: var(--white);
+      border: none;
+      padding: 15px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .empty-msg {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px 16px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    footer a {
+      color: var(--gold-dark);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Top Bar -->
+  <header class="topbar">
+    <div class="brand-title" id="navBrand">THE DAILY BREW</div>
+    <button class="table-badge" id="tableBadge" onclick="openCart()">
+      <span id="tableBadgeText">Select Table</span>
+    </button>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-eyebrow">Artisanal Cafe &amp; Kitchen</div>
+    <h1 id="heroBrand">THE DAILY BREW</h1>
+    <p id="heroTagline">Good Coffee. Great Food. Better Moments.</p>
+    <a href="#menuSection" class="hero-cta">Explore Menu</a>
+  </section>
+
+  <!-- Search & Category Filter -->
+  <div class="controls-wrap" id="menuSection">
+    <div class="search-row">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search coffee, pasta, burgers..." oninput="renderMenu()" />
+      <button id="vegOnlyBtn" class="veg-toggle" onclick="toggleVeg()">
+        <span class="veg-dot"></span> Veg Only
+      </button>
+    </div>
+    <div class="cat-scroll" id="categoryTabs"></div>
+  </div>
+
+  <!-- Menu Listing -->
+  <main class="menu-container" id="menuContainer">
+    <div class="empty-msg">Brewing your menu...</div>
+  </main>
+
+  <footer>
+    <p id="footerBrand">THE DAILY BREW &bull; Freshly Crafted to Order</p>
+    <p style="margin-top:6px;"><a href="admin.html">Staff &amp; Manager Portal</a></p>
+  </footer>
+
+  <!-- Floating Cart Bar -->
+  <div class="cart-bar" id="cartBar" onclick="openCart()">
+    <div class="cart-bar-info">
+      <span id="cartBarCount">0 items</span>
+      <strong id="cartBarTotal">₹0</strong>
+    </div>
+    <div class="cart-bar-cta">View Order &rarr;</div>
+  </div>
+
+  <!-- Cart & Checkout Drawer -->
+  <div class="modal-backdrop" id="cartModal" onclick="handleBackdropClick(event)">
+    <div class="drawer">
+      <div class="drawer-header">
+        <h2>Your Table Order</h2>
+        <button class="close-btn" onclick="closeCart()">&times;</button>
+      </div>
+
+      <div id="cartItemsList"></div>
+
+      <div class="form-group">
+        <label for="tableSelect">Table Number *</label>
+        <select id="tableSelect" class="form-control" onchange="saveTableChoice()"></select>
+      </div>
+
+      <div class="form-group">
+        <label for="customerName">Your Name (Optional)</label>
+        <input type="text" id="customerName" class="form-control" placeholder="e.g., Aarav" />
+      </div>
+
+      <div class="form-group">
+        <label for="orderNotes">Cooking / Coffee Instructions (Optional)</label>
+        <input type="text" id="orderNotes" class="form-control" placeholder="e.g., Extra hot, less sugar, no onions..." />
+      </div>
+
+      <div class="bill-box" id="billSummary"></div>
+
+      <button class="whatsapp-btn" onclick="sendWhatsAppOrder()">
+        Send Order on WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let menuData = null;
+    let activeCategory = "All";
+    let vegOnly = false;
+    let cart = JSON.parse(localStorage.getItem("tdb_cart") || "{}");
+    let selectedTable = "";
+
+    async function initApp() {
+      detectTableFromURL();
+      try {
+        const res = await fetch("menu-data.json?t=" + Date.now());
+        if (!res.ok) throw new Error("Failed to load menu-data.json");
+        menuData = await res.json();
+        applyCafeBranding();
+        populateTableDropdown();
+        renderCategoryTabs();
+        renderMenu();
+        updateCartUI();
+      } catch (err) {
+        document.getElementById("menuContainer").innerHTML =
+          '<div class="empty-msg">Unable to load menu right now. Please refresh the page.</div>';
+      }
+    }
+
+    function detectTableFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const urlTable = params.get("table");
+      if (urlTable) {
+        selectedTable = urlTable.trim();
+        localStorage.setItem("tdb_table", selectedTable);
+      } else {
+        selectedTable = localStorage.getItem("tdb_table") || "";
+      }
+      updateTableBadge();
+    }
+
+    function updateTableBadge() {
+      const badge = document.getElementById("tableBadgeText");
+      badge.textContent = selectedTable ? "Table #" + selectedTable : "Select Table";
+    }
+
+    function applyCafeBranding() {
+      const cafe = menuData.cafe;
+      document.getElementById("navBrand").textContent = cafe.name;
+      document.getElementById("heroBrand").textContent = cafe.name;
+      document.getElementById("heroTagline").textContent = cafe.tagline;
+      document.getElementById("footerBrand").textContent = cafe.name + " • Good Coffee. Great Food. Better Moments.";
+    }
+
+    function populateTableDropdown() {
+      const select = document.getElementById("tableSelect");
+      const count = (menuData.cafe && menuData.cafe.tableCount) || 12;
+      let html = '<option value="">-- Choose Your Table --</option>';
+      for (let i = 1; i <= count; i++) {
+        const val = String(i);
+        html += `<option value="${val}" ${selectedTable === val ? "selected" : ""}>Table ${i}</option>`;
+      }
+      html += `<option value="Takeaway" ${selectedTable === "Takeaway" ? "selected" : ""}>Takeaway / Counter Pickup</option>`;
+      select.innerHTML = html;
+    }
+
+    function saveTableChoice() {
+      selectedTable = document.getElementById("tableSelect").value;
+      localStorage.setItem("tdb_table", selectedTable);
+      updateTableBadge();
+    }
+
+    function toggleVeg() {
+      vegOnly = !vegOnly;
+      document.getElementById("vegOnlyBtn").classList.toggle("active", vegOnly);
+      renderMenu();
+    }
+
+    function renderCategoryTabs() {
+      const tabs = ["All", ...(menuData.categories || [])];
+      const container = document.getElementById("categoryTabs");
+      container.innerHTML = tabs.map(cat => `
+        <button class="cat-pill ${activeCategory === cat ? "active" : ""}" onclick="selectCategory('${cat.replace(/'/g, "\\'")}')">
+          ${cat}
+        </button>
+      `).join("");
+    }
+
+    function selectCategory(cat) {
+      activeCategory = cat;
+      renderCategoryTabs();
+      renderMenu();
+    }
+
+    function renderMenu() {
+      if (!menuData) return;
+      const query = document.getElementById("searchInput").value.trim().toLowerCase();
+      const currency = menuData.cafe.currency || "₹";
+      const container = document.getElementById("menuContainer");
+
+      const filtered = menuData.items.filter(item => {
+        const matchesCat = activeCategory === "All" || item.category === activeCategory;
+        const matchesVeg = !vegOnly || item.veg === true;
+        const matchesSearch = !query ||
+          item.name.toLowerCase().includes(query) ||
+          (item.description && item.description.toLowerCas
