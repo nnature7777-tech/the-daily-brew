@@ -1,0 +1,172 @@
+{
+  "cafe": {
+    "name": "THE DAILY BREW",
+    "tagline": "Good Coffee. Great Food. Better Moments.",
+    "whatsapp": "919999999999",
+    "currency": "₹",
+    "gstPercent": 5,
+    "serviceChargePercent": 0,
+    "tableCount": 12
+  },
+  "categories": [
+    "Hot Coffee",
+    "Cold Coffee",
+    "Tea and Refreshments",
+    "Breakfast",
+    "Burgers and Sandwiches",
+    "Pasta",
+    "Desserts"
+  ],
+  "items": [
+    {
+      "id": "hc-1",
+      "name": "Signature Espresso",
+      "category": "Hot Coffee",
+      "price": 140,
+      "veg": true,
+      "available": true,
+      "description": "Rich double shot pulled from freshly roasted Arabica beans.",
+      "image": "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600&q=80"
+    },
+    {
+      "id": "hc-2",
+      "name": "Velvet Cappuccino",
+      "category": "Hot Coffee",
+      "price": 190,
+      "veg": true,
+      "available": true,
+      "description": "Double espresso topped with silky steamed milk and micro-foam.",
+      "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80"
+    },
+    {
+      "id": "hc-3",
+      "name": "Caramel Macchiato",
+      "category": "Hot Coffee",
+      "price": 220,
+      "veg": true,
+      "available": true,
+      "description": "Steamed milk marked with espresso and drizzled with house caramel.",
+      "image": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=600&q=80"
+    },
+    {
+      "id": "cc-1",
+      "name": "Classic Iced Americano",
+      "category": "Cold Coffee",
+      "price": 170,
+      "veg": true,
+      "available": true,
+      "description": "Chilled water and ice poured over bold double espresso.",
+      "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=600&q=80"
+    },
+    {
+      "id": "cc-2",
+      "name": "Hazelnut Cold Frappe",
+      "category": "Cold Coffee",
+      "price": 240,
+      "veg": true,
+      "available": true,
+      "description": "Blended cold coffee with roasted hazelnut syrup and whipped cream.",
+      "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80"
+    },
+    {
+      "id": "tr-1",
+      "name": "Moroccan Mint Iced Tea",
+      "category": "Tea and Refreshments",
+      "price": 160,
+      "veg": true,
+      "available": true,
+      "description": "Brewed green tea infused with fresh garden mint and lemon.",
+      "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80"
+    },
+    {
+      "id": "tr-2",
+      "name": "Masala Chai Kulhad",
+      "category": "Tea and Refreshments",
+      "price": 120,
+      "veg": true,
+      "available": true,
+      "description": "Slow-brewed Assam tea spiced with ginger, cardamom, and cloves.",
+      "image": "https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?w=600&q=80"
+    },
+    {
+      "id": "bf-1",
+      "name": "Avocado Sourdough Toast",
+      "category": "Breakfast",
+      "price": 290,
+      "veg": true,
+      "available": true,
+      "description": "Smashed Hass avocado, cherry tomatoes, feta, and chili flakes on toasted sourdough.",
+      "image": "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600&q=80"
+    },
+    {
+      "id": "bf-2",
+      "name": "Classic Spanish Omelette",
+      "category": "Breakfast",
+      "price": 260,
+      "veg": false,
+      "available": true,
+      "description": "Fluffy three-egg omelette folded with potatoes, caramelized onions, and herbs.",
+      "image": "https://images.unsplash.com/photo-1510693206972-df098062cb71?w=600&q=80"
+    },
+    {
+      "id": "bs-1",
+      "name": "Crispy Paneer Tikka Burger",
+      "category": "Burgers and Sandwiches",
+      "price": 280,
+      "veg": true,
+      "available": true,
+      "description": "Spiced cottage cheese patty, mint mayo, pickled onions, and cheddar in a brioche bun.",
+      "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80"
+    },
+    {
+      "id": "bs-2",
+      "name": "Smoky Grilled Chicken Club",
+      "category": "Burgers and Sandwiches",
+      "price": 320,
+      "veg": false,
+      "available": true,
+      "description": "Triple-decker toasted sandwich with herb chicken, fried egg, lettuce, and garlic aioli.",
+      "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&q=80"
+    },
+    {
+      "id": "pa-1",
+      "name": "Truffle Mushroom Alfredo",
+      "category": "Pasta",
+      "price": 340,
+      "veg": true,
+      "available": true,
+      "description": "Penne tossed in creamy parmesan sauce with sautéed button mushrooms and truffle oil.",
+      "image": "https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=600&q=80"
+    },
+    {
+      "id": "pa-2",
+      "name": "Arrabbiata Chicken Penne",
+      "category": "Pasta",
+      "price": 360,
+      "veg": false,
+      "available": true,
+      "description": "Spicy San Marzano tomato sauce with garlic, basil, olives, and grilled chicken.",
+      "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=80"
+    },
+    {
+      "id": "ds-1",
+      "name": "Classic Tiramisu Jar",
+      "category": "Desserts",
+      "price": 250,
+      "veg": true,
+      "available": true,
+      "description": "Espresso-soaked savoiardi layered with mascarpone cream and Dutch cocoa.",
+      "image": "https://images.unsplash.com/photo-1571877227200-a2d4062b5c4d?w=600&q=80"
+    },
+    {
+      "id": "ds-2",
+      "name": "Warm Belgian Chocolate Brownie",
+      "category": "Desserts",
+      "price": 210,
+      "veg": true,
+      "available": true,
+      "description": "Fudgy dark chocolate walnut brownie served warm with chocolate ganache.",
+      "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&q=80"
+    }
+  ]
+}
